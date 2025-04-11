@@ -1,0 +1,25 @@
+﻿@model IEnumerable<TaskTracker.Models.UserViewModel>
+@{
+    ViewData["Title"] = "User Management";
+}
+<h2 class="mb-3">User Management</h2>
+
+<table class="table table-bordered table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <span class="badge bg-secondary">@user.Role</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

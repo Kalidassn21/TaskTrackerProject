@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<TaskTracker.Models.DashboardModel>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mt-4 mb-3">Dashboard</h2>
+
+<form asp-action="Index" method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="searchString" value="@Context.Request.Query["searchString"]" class="form-control" placeholder="🔍 Search by Title" />
+    </div>
+    <div class="col-md-3">
+        <select name="statusFilter" class="form-select">
+            <option value="">📋 All Status</option>
+            @foreach (var status in ViewBag.StatusList as SelectList)
+            {
+                <option value="@status.Text" selected="@(Context.Request.Query["statusFilter"] == status.Text ? "selected" : null)">
+                    @status.Text
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="date" name="dueDateFilter" value="@Context.Request.Query["dueDateFilter"]" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+</form>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success mb-3">➕ Create New Task</a>
+    </p>
+}
+
+<table class="table table-bordered table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.DueDate)</th>
+            <th>@Html.DisplayNameFor(model => model.AssignedTo)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
+                <td>@Html.DisplayFor(modelItem => item.AssignedTo)</td>
+                <td>
+                    <span class="badge
+                        @(item.Status == "Completed" ? "bg-success" :
+                          item.Status == "In Progress" ? "bg-warning text-dark" :
+                          item.Status == "Pending" ? "bg-danger" : "bg-secondary")">
+                        @item.Status
+                    </span>
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Edit</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white me-1">Details</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

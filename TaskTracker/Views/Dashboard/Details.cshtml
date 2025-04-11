@@ -1,0 +1,51 @@
+﻿@model TaskTracker.Models.DashboardModel
+
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<h2 class="mt-4 mb-3">📋 Task Details</h2>
+
+<div class="card shadow p-4">
+    <dl class="row mb-0">
+        <dt class="col-sm-3 fw-bold">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt class="col-sm-3 fw-bold">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt class="col-sm-3 fw-bold">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+        <dt class="col-sm-3 fw-bold">
+            @Html.DisplayNameFor(model => model.AssignedTo)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AssignedTo)
+        </dd>
+
+        <dt class="col-sm-3 fw-bold">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning me-2">✏️ Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">🔙 Back to List</a>
+</div>
